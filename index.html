@@ -204,16 +204,18 @@
                 if (userSnap.exists()) {
                     const data = userSnap.data();
                     const now = new Date();
-                    const expiry = data.expiredAt.toDate();
-
+                    const expiry = (data.expiredAt && typeof data.expiredAt.toDate === 'function') 
+                                   ? data.expiredAt.toDate() 
+                                   : new Date(data.expiredAt);
+                
                     if (data.status !== 'active') throw new Error("บัญชีถูกระงับการใช้งาน");
                     if (now > expiry) throw new Error("บัญชีหมดอายุ โปรดต่ออายุการใช้งาน");
                     
                     const sessionId = Date.now().toString() + Math.random().toString(36).substring(2);
                     localStorage.setItem('currentSessionId', sessionId);
                     await updateDoc(userRef, { currentSessionId: sessionId });
-                    
-                    window.location.href = 'https://hy-c9.github.io/Slip-H2o-menu.net/'; 
+                
+                    window.location.href = 'https://hy-c9.github.io/Slip-H2o-menu.net/';
                 } else {
                     throw new Error("ไม่พบข้อมูลอายุการใช้งาน");
                 }

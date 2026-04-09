@@ -212,8 +212,7 @@
                     const sessionId = Date.now().toString() + Math.random().toString(36).substring(2);
                     localStorage.setItem('currentSessionId', sessionId);
                     await updateDoc(userRef, { currentSessionId: sessionId });
-                    // --------------------------------------------
-
+                    
                     window.location.href = 'https://hy-c9.github.io/Slip-H2o-menu.net/'; 
                 } else {
                     throw new Error("ไม่พบข้อมูลอายุการใช้งาน");

@@ -172,7 +172,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyARW02U4K0Ucx9Eq8IWfeR6pVMerfo0v7A",
@@ -193,7 +193,7 @@
             const statusMsg = document.getElementById('status-msg');
 
             statusMsg.className = 'loading'; 
-            statusMsg.innerText = 'กำลังตรวจสอบข้อมูล...';
+            statusMsg.innerText = 'กำลังเข้าสู่ระบบ...';
 
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -208,6 +208,12 @@
 
                     if (data.status !== 'active') throw new Error("บัญชีถูกระงับการใช้งาน");
                     if (now > expiry) throw new Error("บัญชีหมดอายุ โปรดต่ออายุการใช้งาน");
+                    
+                    const sessionId = Date.now().toString() + Math.random().toString(36).substring(2);
+                    localStorage.setItem('currentSessionId', sessionId);
+                    await updateDoc(userRef, { currentSessionId: sessionId });
+                    // --------------------------------------------
+
                     window.location.href = 'https://hy-c9.github.io/Slip-H2o-menu.net/'; 
                 } else {
                     throw new Error("ไม่พบข้อมูลอายุการใช้งาน");

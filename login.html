@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ</title>
+    <link rel="icon" href="assets/image/logo/logoSlipH2o.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap');
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+        }
+
+        body { 
+            font-family: 'Kanit', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 100vw; 
+            min-height: 100vh; 
+            background: #0f172a; 
+            color: white; 
+            position: relative;
+        }
+
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+            opacity: 0.5;
+            animation: pulse 8s infinite alternate;
+        }
+        .shape-1 { width: 300px; height: 300px; background: #ee3c06; top: -50px; left: -100px; }
+        .shape-2 { width: 400px; height: 400px; background: #b70dce; bottom: -100px; right: -100px; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(1.2); opacity: 0.7; }
+        }
+        .login-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .logo-box {
+            z-index: 11;
+            margin-bottom: -65px;
+        }
+        .logo-anim {
+            width: 140px; 
+            height: auto;
+            border-radius: 18px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,0.4));
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* การ์ดกระจกใส (Glassmorphism) */
+        .login-card { 
+            background: rgba(255, 255, 255, 0.05); 
+            padding: 4.5rem 2rem 2.5rem 2rem; /* เพิ่มพื้นที่ด้านบน (4.5rem) เพื่อเว้นที่ให้โลโก้ */
+            border-radius: 24px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); 
+            width: 340px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        h2 { 
+            color: #ffffff; 
+            margin-bottom: 25px; 
+            font-weight: 600;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* ช่องกรอกข้อมูลสุดเท่ */
+        input { 
+            width: 100%; 
+            padding: 14px 15px; 
+            margin: 8px 0 15px 0; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.15); 
+            background: rgba(0,0,0,0.3); 
+            color: white; 
+            font-family: 'Kanit', sans-serif;
+            font-size: 0.95rem;
+            box-sizing: border-box; 
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #00a950;
+            background: rgba(0,0,0,0.5);
+            box-shadow: 0 0 0 3px rgba(0, 169, 80, 0.2);
+        }
+        input::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+        /* ปุ่มกดที่ดูแพงขึ้น */
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            background: linear-gradient(135deg, #00a950 0%, #008a41 100%);
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            color: white; 
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.1rem; 
+            margin-top: 10px; 
+            transition: all 0.3s; 
+            box-shadow: 0 5px 15px rgba(0, 169, 80, 0.3);
+        }
+        button:hover { 
+            background: linear-gradient(135deg, #00c25c 0%, #009948 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 169, 80, 0.5);
+        }
+        button:active { transform: translateY(1px); }
+
+        #status-msg { 
+            margin-top: 20px; 
+            text-align: center; 
+            font-size: 0.9rem; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-weight: 500;
+        }
+        .loading { background: rgba(245, 124, 0, 0.8); border: 1px solid #ffb74d; display: block !important; }
+        .error { background: rgba(198, 40, 40, 0.8); border: 1px solid #ff5252; display: block !important; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <div class="login-wrapper">
+        
+        <div class="logo-box">
+            <img src="assets/image/logo/logoSlipH2o.png" alt="Slip H2O" class="logo-anim">
+        </div>
+        
+        <div class="login-card">
+            <h2>เข้าสู่ระบบ</h2>
+            <input type="email" id="email" placeholder="อีเมล (Email)" onkeypress="if(event.key === 'Enter') handleLogin()" required>
+        <input type="password" id="password" placeholder="รหัสผ่าน (Password)" onkeypress="if(event.key === 'Enter') handleLogin()" required>
+            <button onclick="handleLogin()">เข้าสู่ระบบ</button>
+            <div id="status-msg"></div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyARW02U4K0Ucx9Eq8IWfeR6pVMerfo0v7A",
+            authDomain: "slip-premium-app.firebaseapp.com",
+            projectId: "slip-premium-app",
+            storageBucket: "slip-premium-app.firebasestorage.app",
+            messagingSenderId: "217644633711",
+            appId: "1:217644633711:web:645b3e0fa46d2232fbc79a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        window.handleLogin = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const statusMsg = document.getElementById('status-msg');
+
+            statusMsg.className = 'loading'; 
+            statusMsg.innerText = 'กำลังตรวจสอบข้อมูล...';
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+
+                if (userSnap.exists()) {
+                    const data = userSnap.data();
+                    const now = new Date();
+                    const expiry = data.expiredAt.toDate();
+
+                    if (data.status !== 'active') throw new Error("บัญชีถูกระงับการใช้งาน");
+                    if (now > expiry) throw new Error("บัญชีหมดอายุ โปรดต่ออายุการใช้งาน");
+                    window.location.href = 'https://hy-c9.github.io/Slip-H2o-menu.net/'; 
+                } else {
+                    throw new Error("ไม่พบข้อมูลอายุการใช้งาน");
+                }
+            } catch (error) {
+                statusMsg.className = 'error';
+                statusMsg.innerText = "รหัสไม่ถูกต้อง ";
+            }
+        };
+    </script>
+</body>
+</html>
